@@ -27,11 +27,28 @@ public class MQUtils {
 			return mqSender;
 		}
 	}
+	
+	private static void instant() {
+		try {
+			Class<?> clazz = Class.forName(MQ_SENDER_CLASS);
+			mqSender = (MQSender) clazz.newInstance();
+		} catch (Exception e) {
+		}
+
+	}
 
 	public static void setSenderClass(String mqSenderClass) {
 		MQUtils.MQ_SENDER_CLASS = mqSenderClass;
+		instant();
 	}
 
+	public static void setSenderClass(Class<?> clazz) {
+		try {
+			mqSender = (MQSender) clazz.newInstance();
+		} catch (Exception e) {
+		}
+	}
+	
 	public static void setMqSender(MQSender mqSender) {
 		MQUtils.mqSender = mqSender;
 	}
