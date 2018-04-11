@@ -7,12 +7,13 @@ package com.hzw.monitor.mysqlbinlog.utils;
  *
  */
 public class MyConstants {
+	
 	//// https://dev.mysql.com/doc/internals/en/sending-more-than-16mbyte.html
 	public static final int MAX_PACKET_LENGTH = 16777215;
 
 	// 解析配置文件使用
-	public static String CONFIG_FILE = System.getProperty("mysqlbinlogProperties",
-			"src/main/resources/mysqlbinlog.properties");
+	//public static String CONFIG_FILE = System.getProperty("mysqlbinlogProperties",
+			//"src/main/resources/mysqlbinlog.properties");
 
 	// netty使用
 	public static String NETTY_PORT = "netty_server_port";

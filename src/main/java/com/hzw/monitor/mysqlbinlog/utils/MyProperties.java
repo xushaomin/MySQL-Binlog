@@ -1,41 +1,34 @@
 package com.hzw.monitor.mysqlbinlog.utils;
 
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-/**
- * 
- * @author zhiqiang.liu
- * @2016年1月1日
- *
- */
-import java.io.InputStream;
 import java.util.Properties;
 
-import org.apache.log4j.Logger;
 import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 public class MyProperties {
+	
 	private static final Logger logger = LogManager.getLogger(MyProperties.class);
 
 	// 以下为全局需要
 
 	private static MyProperties myProperties = null;// 全局单例变量，一开始就存在
 
-	static {// 静态块里，只加载一次
+	public static void init(Properties props) {// 静态块里，只加载一次
 
-		Properties props = new Properties();
-		try {
-			InputStream in = new BufferedInputStream(new FileInputStream(MyConstants.CONFIG_FILE));
+		//Properties props = new Properties();
+		//try {
+		//	InputStream in = new BufferedInputStream(new FileInputStream(MyConstants.CONFIG_FILE));
 			// Thread.currentThread().getContextClassLoader().getResourceAsStream(MyConstants.CONFIG_FILE);
-			props.load(in);
-			in.close();
-		} catch (Exception e) {
+		//	props.load(in);
+		//	in.close();
+		//} catch (Exception e) {
 			// logger.error(e.toString());
-			LoggerUtils.error(logger, "fail to read config file " + MyConstants.CONFIG_FILE);
-			System.exit(-1);
-		}
+		//	LoggerUtils.error(logger, "fail to read config file " + MyConstants.CONFIG_FILE);
+		//	System.exit(-1);
+		//}
 		// 读取值mysql
-		LoggerUtils.debug(logger, "succeed to read config file " + MyConstants.CONFIG_FILE);
+		//LoggerUtils.debug(logger, "succeed to read config file " + MyConstants.CONFIG_FILE);
+		
 		// netty
 		int netty_port = Integer.parseInt(props.getProperty(MyConstants.NETTY_PORT, "10000"));
 		int netty_boss = Integer.parseInt(props.getProperty(MyConstants.NETTY_BOSS, "1"));
