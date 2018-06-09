@@ -12,8 +12,12 @@ import com.hzw.monitor.mysqlbinlog.operation.OperationType;
 import com.hzw.monitor.mysqlbinlog.utils.LoggerUtils;
 
 public class TaskListener {
-	private PathChildrenCacheListener listener;
+	
 	private static final Logger logger = LogManager.getLogger(TaskListener.class);
+
+	private PathChildrenCacheListener listener;
+	
+	private static TaskListener instance;
 
 	private TaskListener(PathChildrenCacheListener l) {
 		listener = l;
@@ -22,9 +26,6 @@ public class TaskListener {
 	public PathChildrenCacheListener getListener() {
 		return listener;
 	}
-
-	///
-	private static TaskListener instance;
 
 	public static TaskListener getInstance() {
 		if (null == instance) {
@@ -35,17 +36,17 @@ public class TaskListener {
 						public void childEvent(CuratorFramework client, PathChildrenCacheEvent event) throws Exception {
 							// 正式处理业务
 							switch (event.getType()) {
-							case CHILD_ADDED:
-								// 放入队列就闪
-								OperationQueue.addObject(new OpeationEvent(event, OperationType.TASK_ADD));
-								break;
-							case CHILD_UPDATED:
-								// 放入队列就闪
-								LoggerUtils.debug(logger, "task updated...");
-								OperationQueue.addObject(new OpeationEvent(event, OperationType.TASK_UPDATE));
-								break;
-							default:
-								break;
+								case CHILD_ADDED:
+									// 放入队列就闪
+									OperationQueue.addObject(new OpeationEvent(event, OperationType.TASK_ADD));
+									break;
+								case CHILD_UPDATED:
+									// 放入队列就闪
+									LoggerUtils.debug(logger, "task updated...");
+									OperationQueue.addObject(new OpeationEvent(event, OperationType.TASK_UPDATE));
+									break;
+								default:
+									break;
 							}
 						}
 					};

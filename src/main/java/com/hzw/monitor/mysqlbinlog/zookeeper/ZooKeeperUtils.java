@@ -14,6 +14,7 @@ import org.apache.zookeeper.CreateMode;
 
 import com.hzw.monitor.mysqlbinlog.utils.LoggerUtils;
 
+@SuppressWarnings("deprecation")
 public class ZooKeeperUtils {
 	
 	private static final Logger logger = LogManager.getLogger(ZooKeeperUtils.class);

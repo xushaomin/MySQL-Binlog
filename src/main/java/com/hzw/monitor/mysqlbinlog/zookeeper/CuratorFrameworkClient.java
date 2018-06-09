@@ -8,6 +8,7 @@ import com.hzw.monitor.mysqlbinlog.utils.MyConstants;
 import com.hzw.monitor.mysqlbinlog.utils.MyProperties;
 
 public class CuratorFrameworkClient {
+	
 	private CuratorFramework client;
 
 	private CuratorFrameworkClient(CuratorFramework c) {
@@ -18,9 +19,6 @@ public class CuratorFrameworkClient {
 		return client;
 	}
 
-	///
-	///
-	///
 	private static CuratorFrameworkClient instance;
 
 	public static CuratorFrameworkClient getInstance() {
