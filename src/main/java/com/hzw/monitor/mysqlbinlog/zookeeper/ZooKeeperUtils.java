@@ -14,7 +14,6 @@ import org.apache.zookeeper.CreateMode;
 
 import com.hzw.monitor.mysqlbinlog.utils.LoggerUtils;
 
-@SuppressWarnings("deprecation")
 public class ZooKeeperUtils {
 	
 	private static final Logger logger = LogManager.getLogger(ZooKeeperUtils.class);
@@ -25,8 +24,7 @@ public class ZooKeeperUtils {
 	public static boolean registerChildListener(String path, PathChildrenCacheListener listener) {
 		boolean result = false;
 		try {
-			PathChildrenCache cache = new PathChildrenCache(CuratorFrameworkClient.getInstance().getClient(), path,
-					true);
+			PathChildrenCache cache = new PathChildrenCache(CuratorFrameworkClient.getInstance().getClient(), path, true);
 			cache.start(StartMode.POST_INITIALIZED_EVENT);
 			cache.getListenable().addListener(listener);
 			result = true;
@@ -95,8 +93,7 @@ public class ZooKeeperUtils {
 		try {
 			client.create().withMode(CreateMode.PERSISTENT).forPath(path, value.getBytes());
 			// 创建永久路径
-			LoggerUtils.debug(logger,
-					"path not exist,create persistent path: " + path + " with value" + value + " succeed");
+			LoggerUtils.debug(logger, "path not exist,create persistent path: " + path + " with value" + value + " succeed");
 			// LoggerUtils.debug(logger,
 			// "--------------------------------------");
 		} catch (Exception e) {
