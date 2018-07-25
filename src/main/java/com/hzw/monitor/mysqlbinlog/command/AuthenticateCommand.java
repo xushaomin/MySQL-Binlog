@@ -24,6 +24,7 @@ public class AuthenticateCommand {
 	// // ctx.channel().writeAndFlush();
 	// }
 	private static final Logger logger = LogManager.getLogger(AuthenticateCommand.class);
+	
 	private String scramble;
 	private int collation;
 

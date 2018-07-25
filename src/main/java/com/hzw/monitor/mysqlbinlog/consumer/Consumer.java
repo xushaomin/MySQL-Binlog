@@ -20,6 +20,7 @@ import com.hzw.monitor.mysqlbinlog.utils.WriteResultUtils;
 public class Consumer {
 
 	private static final Logger logger = LogManager.getLogger(Consumer.class);
+	
 	private int index;
 	private BlockingQueue<SnapShot> queue = null;
 	private Thread thread = null;

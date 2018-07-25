@@ -8,7 +8,9 @@ import org.apache.log4j.Logger;
 import com.hzw.monitor.mysqlbinlog.utils.LoggerUtils;
 
 public class FilterRule {
+	
 	private static final Logger logger = LogManager.getLogger(FilterRule.class);
+	
 	private Pattern database;
 	private Pattern table;
 

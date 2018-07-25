@@ -40,10 +40,12 @@ public class OperationServer {
 	// 很多事件都可以转化为此事件
 	public static void AddTask(String taskPath, String taskData, boolean reRegister, PriorityQueue<Machine> queue) {
 		// 必须保证，一旦进入这个函数，都是需要进行任务竞争的，否则不应该进入此函数
-		LoggerUtils.debug(logger, "--------------------------------------------");
+		LoggerUtils.error(logger, "--------------------------------------------");
 		String runningPath = taskPath + "/running";
 		String currentPath = runningPath + "/current";
 		String binlogPositionPath = taskPath + "/binlog-positions";
+		LoggerUtils.error(logger, "--------------------------------------------" + runningPath);
+
 		// 1)保证某个节点必须存在&注册监听器
 		ZooKeeperUtils.ensurePersistentPathWithNoValue(runningPath);
 		if (reRegister) {
@@ -117,8 +119,7 @@ public class OperationServer {
 					fp = position.length() == 0 ? 0 : Long.parseLong(position);
 					// 映射到ZK
 					ZooKeeperUtils.update(binlogPositionPath, fn + ":" + fp + ":" + System.currentTimeMillis());// 务必反映到zk中
-					LoggerUtils.debug(logger,
-							binlogPositionPath + " exist,but task is newer,continue based on task data");
+					LoggerUtils.debug(logger, binlogPositionPath + " exist,but task is newer,continue based on task data");
 				} else {
 					// 以binlog为准
 					fn = binlogValues[0];
@@ -168,8 +169,7 @@ public class OperationServer {
 					throw new Exception("pkMapping is null...");
 				}
 				// 准备好连接
-				conn = ConnectionFactory.makeObject(ip, port, taskData, currentPath, binlogPositionPath, fn, fp,
-						clientID);
+				conn = ConnectionFactory.makeObject(ip, port, taskData, currentPath, binlogPositionPath, fn, fp, clientID);
 				conn.getAttributes().setDatabaseTableColumnsMapping(metaMapping);
 				conn.getAttributes().setPrimaryKeysMapping(pkMapping);
 			}
@@ -237,7 +237,8 @@ public class OperationServer {
 			public void run() {
 				// 更新本地集合&广而告之
 				tasks.set(0);
-				machinePriorityQueue.add(new Machine(IpUtils.getServerId(), 0));
+				Machine localMachine = new Machine(IpUtils.getServerId(), 0);
+				machinePriorityQueue.add(localMachine);
 				ZooKeeperUtils.upsertEphemeral(key, "0");
 				//
 				while (true) {
@@ -274,8 +275,7 @@ public class OperationServer {
 							while (null != ConnectionFactory.get(StringUtils.union(ip, "" + port))) {
 								TimeUtils.sleepMilliSeconds(50);
 							}
-							LoggerUtils.info(logger,
-									"netty close environment [" + ip + ":" + port + "] successfully...bingo");
+							LoggerUtils.info(logger, "netty close environment [" + ip + ":" + port + "] successfully...bingo");
 						} else {// 直接尝试抢占
 							AddTask(taskPath, taskData, false, machinePriorityQueue);
 						}
@@ -307,15 +307,13 @@ public class OperationServer {
 							port = Integer.valueOf(elements[1]);
 							mySocketChannel = ConnectionFactory.get(StringUtils.union(ip, "" + port));
 							if (null != mySocketChannel) {// 如果当前机器上有任务在跑的话就停止它，然后什么都不做
-								LoggerUtils.debug(logger,
-										"succeed to find the memory MyNioSocketChannel mySocketChannel");
+								LoggerUtils.debug(logger, "succeed to find the memory MyNioSocketChannel mySocketChannel");
 								NettyUtils.triggerChannelClosed(mySocketChannel);
 								// 然后需要确保netty全部处理结束了才会处理下一个事件
 								while (null != ConnectionFactory.get(StringUtils.union(ip, "" + port))) {
 									TimeUtils.sleepMilliSeconds(50);
 								}
-								LoggerUtils.info(logger,
-										"netty close environment [" + ip + ":" + port + "] successfully...bingo");
+								LoggerUtils.info(logger, "netty close environment [" + ip + ":" + port + "] successfully...bingo");
 							} else {// 否则什么都不做
 								// 都停止了，就不要做啥了
 							}
@@ -323,8 +321,7 @@ public class OperationServer {
 						break;
 
 					case SOCKET_ADD:
-						LoggerUtils.debug(logger,
-								"socket increased,will update the value of serverId under .../machines");
+						LoggerUtils.debug(logger, "socket increased,will update the value of serverId under .../machines");
 						// 更新数字
 						tasks.set(tasks.intValue() + 1);
 						// 更新本地集合
@@ -335,8 +332,7 @@ public class OperationServer {
 						ZooKeeperUtils.upsertEphemeral(key, "" + tasks.get());
 						break;
 					case SOCKET_DELETE:
-						LoggerUtils.debug(logger,
-								"socket decreased,will update the value of serverId under .../machines");
+						LoggerUtils.debug(logger, "socket decreased,will update the value of serverId under .../machines");
 						// 更新数字
 						tasks.set(tasks.intValue() - 1);
 						// 更新本地集合
@@ -359,8 +355,7 @@ public class OperationServer {
 						lastIndex = machinePath.lastIndexOf("/");
 						machinePath = machinePath.substring(lastIndex + 1);
 						// 如果是自己的信息，则屏蔽
-						if (null != machinePath && machinePath.length() > 0
-								&& machinePath.equals(IpUtils.getServerId())) {
+						if (null != machinePath && machinePath.length() > 0 && machinePath.equals(IpUtils.getServerId())) {
 							// 自己发出的，屏蔽
 							LoggerUtils.debug(logger, "sent by myself,omit");
 							break;
@@ -381,8 +376,7 @@ public class OperationServer {
 						lastIndex = machinePath.lastIndexOf("/");
 						machinePath = machinePath.substring(lastIndex + 1);
 						// 如果是自己的信息，则屏蔽
-						if (null != machinePath && machinePath.length() > 0
-								&& machinePath.equals(IpUtils.getServerId())) {
+						if (null != machinePath && machinePath.length() > 0 && machinePath.equals(IpUtils.getServerId())) {
 							// 自己发出的，屏蔽,实际上这种情况不会出现
 							LoggerUtils.debug(logger, "sent by myself,omit");
 							break;

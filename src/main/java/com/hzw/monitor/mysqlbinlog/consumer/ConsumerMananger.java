@@ -15,7 +15,9 @@ import com.hzw.monitor.mysqlbinlog.utils.StringUtils;
 import com.hzw.monitor.mysqlbinlog.utils.TimeUtils;
 
 public class ConsumerMananger {
+	
 	private static final Logger logger = LogManager.getLogger(ConsumerMananger.class);
+	
 	private Consumer[] consumers = null;
 	private AtomicLong totalNumber = new AtomicLong(0);// 总的消费数量
 

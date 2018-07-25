@@ -14,6 +14,7 @@ import org.apache.zookeeper.CreateMode;
 
 import com.hzw.monitor.mysqlbinlog.utils.LoggerUtils;
 
+@SuppressWarnings("deprecation")
 public class ZooKeeperUtils {
 	
 	private static final Logger logger = LogManager.getLogger(ZooKeeperUtils.class);
@@ -66,8 +67,7 @@ public class ZooKeeperUtils {
 			EnsurePath ensurePath = new EnsurePath(path);
 			ensurePath.ensure(CuratorFrameworkClient.getInstance().getClient().getZookeeperClient());
 			LoggerUtils.debug(logger, "ensure zk path: " + path + " succeed");
-			// LoggerUtils.debug(logger,
-			// "--------------------------------------");
+			// LoggerUtils.debug(logger, "--------------------------------------");
 		} catch (Exception e) {
 
 		}
@@ -94,8 +94,7 @@ public class ZooKeeperUtils {
 			client.create().withMode(CreateMode.PERSISTENT).forPath(path, value.getBytes());
 			// 创建永久路径
 			LoggerUtils.debug(logger, "path not exist,create persistent path: " + path + " with value" + value + " succeed");
-			// LoggerUtils.debug(logger,
-			// "--------------------------------------");
+			// LoggerUtils.debug(logger, "--------------------------------------");
 		} catch (Exception e) {
 			LoggerUtils.error(logger, e.toString());
 		}
@@ -116,8 +115,7 @@ public class ZooKeeperUtils {
 			client.create().withMode(CreateMode.EPHEMERAL).forPath(path, value.getBytes());
 			// 创建永久路径
 			LoggerUtils.debug(logger, "path not exist,create temp path: " + path + " with value" + value + " succeed");
-			// LoggerUtils.debug(logger,
-			// "--------------------------------------");
+			// LoggerUtils.debug(logger, "--------------------------------------");
 		} catch (Exception e) {
 			LoggerUtils.error(logger, e.toString());
 		}
@@ -154,8 +152,7 @@ public class ZooKeeperUtils {
 			LoggerUtils.error(logger, e.toString());
 		}
 		//long end = System.currentTimeMillis();
-		// /LoggerUtils.info(logger, "update zk data cost:" + (end - begin) + "
-		// ms");
+		//LoggerUtils.info(logger, "update zk data cost:" + (end - begin) + " ms");
 	}
 
 	// 查

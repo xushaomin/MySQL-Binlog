@@ -50,8 +50,11 @@ public class RequestBinaryLogCommand {
 
 		// 构造缓冲区并发送
 		ByteBuf finalBuf = Unpooled.buffer(totalCount + 4);
-		finalBuf.writeBytes(totalCountBytes).writeBytes(commandTypeBytes).writeBytes(dumpBytes)
-				.writeBytes(positionBytes).writeBytes(flagBytes);
+		finalBuf.writeBytes(totalCountBytes)
+				.writeBytes(commandTypeBytes)
+				.writeBytes(dumpBytes)
+				.writeBytes(positionBytes)
+				.writeBytes(flagBytes);
 		finalBuf.writeBytes(serverIdBytes).writeBytes(binlogFileNameBytes);
 		context.channel().writeAndFlush(finalBuf);// 缓存清理
 		// LoggerUtils.debug(logger, "准备发送请求二进制日志成功");

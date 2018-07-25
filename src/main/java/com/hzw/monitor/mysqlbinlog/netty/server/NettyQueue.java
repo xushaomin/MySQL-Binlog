@@ -36,6 +36,7 @@ public class NettyQueue {
 	// private static final Logger logger =
 	// LoggerFactory.getLogger(MonitorQueue.class);
 	private static final Logger logger = LogManager.getLogger(NettyQueue.class);
+	
 	public static BlockingQueue<Connection> objectQueue = new LinkedBlockingQueue<Connection>();
 
 	public static void addObject(Connection obj) {

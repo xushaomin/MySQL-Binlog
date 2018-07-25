@@ -3,6 +3,7 @@ package com.hzw.monitor.mysqlbinlog.operation;
 import org.apache.curator.framework.recipes.cache.PathChildrenCacheEvent;
 
 public class OpeationEvent {
+	
 	private PathChildrenCacheEvent event;
 	private OperationType type;
 

@@ -26,6 +26,9 @@ import com.hzw.monitor.mysqlbinlog.utils.WriteResultUtils;
 import com.hzw.monitor.mysqlbinlog.zookeeper.ZooKeeperUtils;
 
 public class ConnectionAttributes {
+	
+	private static final Logger logger = LogManager.getLogger(ConnectionAttributes.class);
+
 	// 记录了连接远程连接的属性
 	public String getIp() {
 		return ip;
@@ -35,7 +38,6 @@ public class ConnectionAttributes {
 		return port;
 	}
 
-	private static final Logger logger = LogManager.getLogger(ConnectionAttributes.class);
 	private boolean firstFormatDescription = true;
 
 	public boolean isFirstFormatDescription() {

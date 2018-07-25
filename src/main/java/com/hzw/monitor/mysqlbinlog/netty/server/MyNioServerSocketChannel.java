@@ -38,8 +38,7 @@ public class MyNioServerSocketChannel extends NioServerSocketChannel {
 		Connection connection = NettyQueue.getObject();
 		try {
 			if (connection != null) {
-				MyNioSocketChannel channel = new MyNioSocketChannel(this, connection.getSocketChannel(),
-						connection.getAttributes());
+				MyNioSocketChannel channel = new MyNioSocketChannel(this, connection.getSocketChannel(), connection.getAttributes());
 				buf.add(channel);
 				LoggerUtils.debug(logger, "db conn is as follows: " + connection.getSocketChannel());
 				// logger.debug("buf :" + buf);

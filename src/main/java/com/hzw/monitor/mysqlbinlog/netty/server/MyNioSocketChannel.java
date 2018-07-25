@@ -8,6 +8,7 @@ import io.netty.channel.Channel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 
 public class MyNioSocketChannel extends NioSocketChannel {
+	
 	ConnectionAttributes attributes;
 
 	public MyNioSocketChannel(Channel parent, SocketChannel socket, ConnectionAttributes a) {

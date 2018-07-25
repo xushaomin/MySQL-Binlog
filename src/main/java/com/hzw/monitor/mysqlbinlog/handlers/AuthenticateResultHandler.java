@@ -44,8 +44,7 @@ public class AuthenticateResultHandler extends SimpleChannelInboundHandler<ByteB
 					context.pipeline().remove(MyConstants.FETCH_BINLOG_NAMEPOSITION_RESULT_HANDLER);
 					// 直接跳到fetchbinlogchecksum环节
 					new FetchBinlogChecksumCommand("show global variables like 'binlog_checksum'").write(context);
-					LoggerUtils.debug(logger,
-							"binlog positon specified :" + name + ":" + position + ", try to fetch checksum");
+					LoggerUtils.debug(logger, "binlog positon specified :" + name + ":" + position + ", try to fetch checksum");
 				} else {
 					new FetchBinlogNamePositionCommand("show master status").write(context);
 					LoggerUtils.debug(logger, "try to fetch binlog current name&positon");

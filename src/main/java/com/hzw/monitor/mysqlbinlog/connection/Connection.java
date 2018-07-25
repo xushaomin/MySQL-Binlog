@@ -13,7 +13,9 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 public class Connection {
+	
 	private static final Logger logger = LogManager.getLogger(Connection.class);
+	
 	private SocketChannel socketChannel;
 	private ConnectionAttributes attributes;
 

@@ -51,14 +51,29 @@ public class IpUtils {
 			ip = hostname;
 		}
 
+		String os = System.getProperty("os.name");
 		// 获取tcp端口
-		List<Integer> ports = getPortByCmd(
-				new String[] { "/bin/bash", "-c", "netstat -antp|grep LISTEN |grep ' " + pid + "/'" });
-		// 如果tcp端口为空则获取udp
-		if (ports == null || ports.size() <= 0) {
-			ports = getPortByCmd(new String[] { "/bin/bash", "-c", "netstat -anup | grep ' " + pid + "/'" });
+		List<Integer> ports = null;
+		if(os.indexOf("Windows") > -1) {
+			ports = getPortByCmd(
+					new String[] { "cmd /c netstat -ano|findstr " + pid + "" });
 		}
-
+		else {
+			ports = getPortByCmd(
+					new String[] { "/bin/bash", "-c", "netstat -antp|grep LISTEN |grep '" + pid + "/'" });
+		}
+		// 如果tcp端口为空则获取udp
+		if(os.indexOf("Windows") > -1) {
+			if (ports == null || ports.size() <= 0) {
+				ports = getPortByCmd(new String[] { "cmd /c netstat -ano | findstr " + pid + "" });
+			}
+		}
+		else {
+			if (ports == null || ports.size() <= 0) {
+				ports = getPortByCmd(new String[] { "/bin/bash", "-c", "netstat -anup | grep '" + pid + "/'" });
+			}
+		}
+		
 		String port = ports.toString().replaceAll("\\s*", "");
 		return ip + "-" + port;
 	}
@@ -85,6 +100,7 @@ public class IpUtils {
 
 			p.waitFor();
 		} catch (Exception e) {
+			e.printStackTrace();
 		} finally {
 			if (br != null)
 				try {
