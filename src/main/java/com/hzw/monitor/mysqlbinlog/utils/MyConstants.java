@@ -25,6 +25,10 @@ public class MyConstants {
 
 	// zookeeper使用
 	public static String ZK_SERVERS = "zk_servers";
+	public static String ZK_SESSION_TIMEOUT = "zk_session_timeout";
+	public static String ZK_RETRY_TIME = "zk_retry_time";
+	public static String ZK_RETRY_MAX = "zk_retry_max";
+	
 	public static String ZK_NAMESPACE = "kmonitor-mysql-binlog";
 	public static String ZK_NAMESPACE_TASKS = "/" + ZK_NAMESPACE + "/tasks";
 	public static String ZK_NAMESPACE_MACHINES = "/" + ZK_NAMESPACE + "/machines";

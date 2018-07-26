@@ -1,5 +1,6 @@
 package com.hzw.monitor.mysqlbinlog.zookeeper;
 
+import org.apache.curator.RetryPolicy;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
@@ -25,9 +26,13 @@ public class CuratorFrameworkClient {
 		if (null == instance) {
 			synchronized (CuratorFrameworkClient.class) {
 				if (null == instance) {
+					MyProperties prop = MyProperties.getInstance();
+			        RetryPolicy retryPolicy = 
+			        		new ExponentialBackoffRetry(prop.getZk_retry_time(), prop.getZk_retry_max());
 					CuratorFramework worker = CuratorFrameworkFactory.builder()
-							.connectString(MyProperties.getInstance().getZk_servers()).sessionTimeoutMs(5000)
-							.retryPolicy(new ExponentialBackoffRetry(1000, 3)).build();
+							.connectString(prop.getZk_servers())
+							.sessionTimeoutMs(prop.getZk_session_timeout())
+							.retryPolicy(retryPolicy).build();
 					worker.start();
 					worker.usingNamespace(MyConstants.ZK_NAMESPACE);
 					instance = new CuratorFrameworkClient(worker);

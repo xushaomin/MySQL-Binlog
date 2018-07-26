@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.haiziwang.platform.kmonitor</groupId>
 	<artifactId>kmonitor-mysql-binlog</artifactId>
-	<version>1.2.2.APPLE</version>
+	<version>1.2.3.APPLE</version>
 
 	<dependencies>
 

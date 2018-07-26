@@ -39,11 +39,20 @@ public class MyProperties {
 				* Integer.parseInt(props.getProperty(MyConstants.CONSUMER_WORKER, "2").trim());// 2倍cpu
 		// zk
 		String zk_servers = props.getProperty(MyConstants.ZK_SERVERS);
+		
+		int zk_session_timeout = Integer.parseInt(props.getProperty(MyConstants.ZK_SESSION_TIMEOUT, "5000"));
+		int zk_retry_time = Integer.parseInt(props.getProperty(MyConstants.ZK_RETRY_TIME, "1000"));
+		int zk_retry_max = Integer.parseInt(props.getProperty(MyConstants.ZK_RETRY_MAX, "3"));
+		
 		// countvalve
 		long countValve = Long.parseLong(props.getProperty(MyConstants.COUNT_VALVE, "100"));
 		props = null;
 		// 构造新的对象
 		myProperties = new MyProperties(netty_port, netty_boss, netty_worker, consumer_worker, zk_servers, countValve);
+		myProperties.zk_session_timeout = zk_session_timeout;
+		myProperties.zk_retry_time = zk_retry_time;
+		myProperties.zk_retry_max = zk_retry_max;
+		
 		LoggerUtils.debug(logger, "succeed to create my properties object ");
 	}
 
@@ -62,6 +71,11 @@ public class MyProperties {
 	private String zk_servers;
 	//
 	private long accumalatedCountValue;
+	
+	private int zk_session_timeout = 5000;
+	private int zk_retry_time = 1000;
+	private int zk_retry_max = 3;
+	
 
 	private MyProperties() {// 私有方法，保证单例
 
@@ -101,6 +115,18 @@ public class MyProperties {
 
 	public int getNetty_worker() {
 		return netty_worker;
+	}
+
+	public int getZk_session_timeout() {
+		return zk_session_timeout;
+	}
+
+	public int getZk_retry_time() {
+		return zk_retry_time;
+	}
+
+	public int getZk_retry_max() {
+		return zk_retry_max;
 	}
 
 	public String toString() {
